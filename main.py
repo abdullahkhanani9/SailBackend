@@ -41,10 +41,10 @@ def index():
     return render_template("index.html")
 
 @app.route('/table/')  # connects /stub/ URL to stub() function
-def table():
+def table():    
     return render_template("table.html")
 
-@app.before_first_request
+# @app.before_first_request
 def activate_job():  # activate these items 
     initJokes()
     initUsers()
