@@ -1,7 +1,7 @@
 import threading
 
 # import "packages" from flask
-from flask import render_template  # import render_template from "public" flask libraries
+from flask import render_template, jsonify  # import render_template from "public" flask libraries
 
 # import "packages" from "this" project
 from __init__ import app,db  # Definitions initialization
@@ -44,9 +44,7 @@ def index():
 def table():    
     return render_template("table.html")
 
-@app.route('/posts')  # connects /stub/ URL to stub() function
-def posts():
- class FrogSpecies:
+class FrogSpecies:
     def __init__(self, name, size, habitat, predators, diet, lifespan, toxicity, fun_facts):
         self.name = name
         self.size = size
@@ -67,12 +65,24 @@ def posts():
         print(f"Toxicity: {self.toxicity}")
         print(f"Fun Facts: {self.fun_facts}")
         print('----------------------------------------')
-
+        
+    def to_dict(self):
+        dict = {}
+        dict["Species"] = self.name
+        dict["Size"] = self.size
+        dict["Habitat"] = self.habitat
+        dict["Predators"] = self.predators
+        dict["Diet"] = self.diet
+        dict["Lifespan"] = self.lifespan
+        dict["Toxicity"] = self.toxicity
+        dict["Fun Facts"] = self.fun_facts
+        return dict
+    
 frog_species_list = []
 
-def add_frog_species(name, size, habitat, predators, diet, lifespan, toxicity, fun_facts):
+def addFrogSpecies(name, size, habitat, predators, diet, lifespan, toxicity, fun_facts):
     frog = FrogSpecies(name, size, habitat, predators, diet, lifespan, toxicity, fun_facts)
-    frog_species_list.append(frog)
+    frog_species_list.append(frog.to_dict())
 
 addFrogSpecies(
     "Sumaco Horned Frog (Hemiphractus proboscideus)", 
@@ -83,7 +93,7 @@ addFrogSpecies(
     "The typical lifespan of the Sumaco Horned Frog in the wild is around 8 to 10 years.",
     "The Sumaco Horned Frog is not considered highly poisonous or toxic. It does not possess the potent skin toxins seen in some other frog species.",
     "The Sumaco Horned Frog gets its name from the distinctive bony horn-like protrusions above its eyes, which give it a unique appearance.These frogs have a cryptic coloration, often resembling moss or lichen, helping them blend into their forest environment. They are known for their unique reproductive behavior, with males guarding eggs and tadpoles, which they carry on their backs. This species is native to a specific and limited geographic range, making it an interesting subject of study and conservation concern.",
-);
+)
 
 addFrogSpecies(
     "Peruvian Toad (Rhinella peruviana)",
@@ -94,7 +104,7 @@ addFrogSpecies(
     "The average lifespan of the Peruvian Toad in the wild is not precisely documented but is estimated to be around 5 to 10 years.",
     "Peruvian Toads, like many toad species, secrete toxins through their skin. These toxins can be harmful or even deadly to predators that attempt to consume them. However, the level of toxicity can vary among individuals and is often more pronounced in certain regions or populations.",
     "The Peruvian Toad is a species known for its warty skin and distinctive coloration, which can help it blend into its environment. As with many toad species, the toxins they secrete from their skin glands serve as a defense mechanism against potential predators. Toads, including the Peruvian Toad, have specialized parotoid glands behind their eyes that release toxins when threatened. These toads are important components of their ecosystems and contribute to insect population control due to their diet.",
-);
+)
 
 addFrogSpecies(
     "Painted Burrowing Frog (Neobatrachus sudellae)",
@@ -105,7 +115,7 @@ addFrogSpecies(
     "The lifespan of the Painted Burrowing Frog in the wild is not extensively documented but is estimated to be several years, possibly up to a decade or more, depending on environmental conditions and predation.",
     "The Painted Burrowing Frog is not known to be poisonous or toxic. It lacks the skin toxins found in some other frog species.",
     "The Painted Burrowing Frog gets its name from its distinctive marbled or painted appearance on its skin, which can vary in color and pattern. This species is well adapted to its arid habitat and is known for burrowing into the sandy soils to escape extreme temperatures and conserve moisture. They have a unique burrowing behavior, spending much of their lives underground, emerging during periods of heavy rain for breeding. These frogs are relatively small and have a charming, unassuming appearance.",
-);
+)
 
 addFrogSpecies(
     "Lao Newt (Tylototriton lauhachindai)",
@@ -116,7 +126,7 @@ addFrogSpecies(
     "The lifespan of the Lao Newt in the wild is not extensively documented but is estimated to be several years, possibly up to a decade or more.",
     "The Lao Newt is known to be toxic. Like other newt species, it possesses skin toxins that can be harmful to potential predators. These toxins serve as a defense mechanism to deter predation.",
     "The Lao Newt is part of the salamander family and is known for its distinctive coloration, with bright orange-red markings on a dark background. This species is listed as endangered due to habitat loss and degradation, making it a conservation concern. Lao Newts are adapted to cool, fast-flowing streams and are excellent swimmers. The toxicity of these newts is attributed to compounds known as tetrodotoxins, which can be found in their skin and other tissues. These toxins are the same ones found in pufferfish and are highly potent.",
-);
+)
 
 addFrogSpecies(
     "Eastern Spadefoot Toad (Scaphiopus holbrookii)",
@@ -127,7 +137,7 @@ addFrogSpecies(
     "The Eastern Spadefoot Toad typically has a lifespan of 5 to 10 years in the wild, depending on environmental conditions and predation.",
     "The Eastern Spadefoot Toad is not known to be highly poisonous or toxic. It lacks the potent skin toxins found in some other frog and toad species.",
     "Eastern Spadefoot Toads get their name from a keratinized, spade-like projection on their hind feet, which they use for burrowing. This adaptation helps them survive in sandy soils. They are known for their unique breeding behavior, which is often triggered by heavy rains. They lay their eggs in temporary pools of water. Eastern Spadefoot Toads are primarily nocturnal, coming out at night to forage for food and engage in their breeding activities. These toads are adapted to arid and sandy habitats and can endure dry conditions by burrowing underground, where they can remain for long periods.",
-);
+)
 
 addFrogSpecies(
     "Painted Reed Frog (Hyperolius marmoratus)",
@@ -138,7 +148,7 @@ addFrogSpecies(
     "The average lifespan of the Painted Reed Frog in the wild is not extensively documented but is estimated to be several years, typically up to 5 years or more.",
     "The Painted Reed Frog is not known to be highly poisonous or toxic. It lacks the potent skin toxins found in some other frog species.",
     "The Painted Reed Frog is known for its striking and colorful markings, which can vary in pattern and coloration. These patterns are often used for camouflage in their reed bed habitats. They have a unique breeding behavior, with males calling from the vegetation near water to attract females for mating. Painted Reed Frogs are well adapted to their freshwater environments and are excellent climbers, often found clinging to vegetation near water. These frogs are relatively small and have a charming, colorful appearance, making them a popular subject for amphibian enthusiasts and photographers.",
-);
+)
 
 addFrogSpecies(
     "Malagasy Rainbow Frog (Scaphiophryne gottlebei)",
@@ -149,7 +159,7 @@ addFrogSpecies(
     "The average lifespan of the Malagasy Rainbow Frog in the wild is not extensively documented but is estimated to be several years, typically up to 5 years or more.",
     "The Malagasy Rainbow Frog is not known to be highly poisonous or toxic. It lacks the potent skin toxins found in some other frog species.",
     "The Malagasy Rainbow Frog is named for its striking and colorful patterns, which can vary among individuals. They exhibit a combination of red, orange, and yellow colors on a dark background. This species is found only in Madagascar and is part of the unique and diverse amphibian fauna of the island. They have a distinctive sit-and-wait feeding behavior, where they remain still and ambush prey that comes within range. Malagasy Rainbow Frogs are adapted to both terrestrial and arboreal (tree-dwelling) habitats, making them a fascinating and adaptable species.",
-);
+)
 
 addFrogSpecies(
     "Hourglass Tree Frog (Dendropsophus ebraccatus)",
@@ -160,7 +170,7 @@ addFrogSpecies(
     "The average lifespan of the Hourglass Tree Frog in the wild is not extensively documented but is estimated to be several years, typically up to 5 years or more.",
     "The Hourglass Tree Frog is not known to be highly poisonous or toxic. It lacks the potent skin toxins found in some other frog species.",
     "These frogs are known for their distinctive hourglass-shaped pattern on their backs, which gives them their common name. Hourglass Tree Frogs have sticky toe pads that help them climb and stick to vegetation. They are arboreal, spending most of their time in trees and shrubs. Males of this species are known for their loud, high-pitched calls during the breeding season to attract females.",
-);
+)
 
 addFrogSpecies(
     "Plains Leopard Frog (Lithobates blairi)",
@@ -171,7 +181,7 @@ addFrogSpecies(
     "The typical lifespan of Plains Leopard Frogs in the wild is around 2 to 4 years, although this can vary based on environmental conditions and predation.",
     "Plains Leopard Frogs are not known to be highly poisonous or toxic. They lack the potent skin toxins found in some other frog species.",
     "These frogs get their name from the spots and blotchy patterns on their skin, resembling a leopard's spots. They are known for their distinctive vocalizations during the breeding season, which sound like chuckling laughter. Plains Leopard Frogs are adapted to a variety of terrestrial and aquatic habitats, and they often inhabit grasslands and wetlands with temporary or semi-permanent water bodies. During the breeding season, males call from the water to attract females for mating.",
-);
+)
 
 addFrogSpecies(
     "Coorg Yellow Bush Frog (Raorchestes luteolus)",
@@ -182,7 +192,7 @@ addFrogSpecies(
     "The average lifespan of Coorg Yellow Bush Frogs in the wild is not extensively documented but is estimated to be several years.",
     "Coorg Yellow Bush Frogs are not known to be highly poisonous or toxic. They lack the potent skin toxins found in some other frog species.",
     "These frogs have a bright yellow coloration, which helps them blend into the vegetation of their habitat. Coorg Yellow Bush Frogs are known for their distinctive calls, which are often heard during the breeding season. These calls help them communicate and locate potential mates. They are adapted to an arboreal (tree-dwelling) lifestyle and are often found perched on leaves and branches. The species is native to a region with rich biodiversity, and it contributes to the local ecosystem by controlling insect populations.",
-);
+)
 
 addFrogSpecies(
     "Starry Night Reed Frog (Hyperolius pusillus)",
@@ -193,7 +203,7 @@ addFrogSpecies(
     "The average lifespan of Starry Night Reed Frogs in the wild is not extensively documented but is estimated to be several years, typically up to 5 years or more.",
     "Starry Night Reed Frogs are not known to be highly poisonous or toxic. They lack the potent skin toxins found in some other frog species.",
     "The Starry Night Reed Frog is known for its striking and colorful markings, which can vary in pattern and coloration. These patterns are often used for camouflage in their reed bed habitats. They have a unique breeding behavior, with males calling from the vegetation near water to attract females for mating. Starry Night Reed Frogs are well adapted to their freshwater environments and are excellent climbers, often found clinging to vegetation near water. These frogs are relatively small and have a charming, colorful appearance, making them a popular subject for amphibian enthusiasts and photographers.",
-);
+)
 
 addFrogSpecies(
     "Yellow-striped Poison Dart Frog (Dendrobates truncatus)",
@@ -204,7 +214,7 @@ addFrogSpecies(
     "In the wild, their lifespan is not extensively documented, but it is estimated to be several years. In captivity, with proper care, they can live for more extended periods.",
     "These frogs are indeed poisonous. They get their name from the toxic secretions on their skin, which can be harmful or even deadly to potential predators. Indigenous people have used the toxins from these frogs to poison the tips of blowdarts for hunting.",
     "These frogs are known for their bright and striking coloration, which can vary among individuals. The vibrant colors act as a warning signal to potential predators. Indigenous people of South America have used the toxins from these frogs for centuries to poison their blowdarts, which is why they are called 'dart frogs.' Their toxicity is believed to be a result of their diet, as they obtain certain alkaloids from the arthropods they consume.",
-);
+)
 
 addFrogSpecies(
     "Archey's Frog (Leiopelma archeyi)",
@@ -215,7 +225,7 @@ addFrogSpecies(
     "In the wild, their lifespan can extend up to 30 years, making them one of the longest-lived frogs known. This longevity is remarkable for a small amphibian.",
     "Archey's Frogs are not known to be poisonous or toxic. They lack the potent skin toxins found in some other frog species. Instead, their main defense strategy is their cryptic appearance and living in remote, hard-to-reach habitats.",
     "These frogs have a limited range and are often considered 'living fossils' because they have changed very little over millions of years of evolution. They belong to an ancient lineage of frogs. They are often referred to as 'pepeketua' in the Māori language, which translates to 'the night creeper,' referencing their nocturnal habits. Archey's Frogs have a distinctive appearance, with rough, granular skin that helps with camouflage in their forested habitat.",
-);
+)
 
 addFrogSpecies(
     "Red-legged Frog (Rana aurora)",
@@ -226,7 +236,7 @@ addFrogSpecies(
     "In the wild, Red-legged Frogs can have a lifespan of up to 8 years or more. Their longevity can vary depending on environmental conditions, predation, and other factors.",
     "While they are not as poisonous as some other frog species, Red-legged Frogs do secrete mild toxins through their skin, which can make them unpalatable to some predators. However, their level of toxicity is not as potent as, for example, poison dart frogs.",
     "Red-legged Frogs are often recognized by their distinct red coloration on the undersides of their hind legs, which gives them their name. They are excellent jumpers and swimmers, capable of leaping great distances and navigating through aquatic environments. Red-legged Frogs are known for their distinct, resonant call, which is often described as sounding like 'jug-o-rum'. They are considered an ecologically important species, playing a role in regulating insect populations and serving as prey for various predators in their habitat.",
-);
+)
 
 addFrogSpecies(
     "European Common Frog (Rana temporaria)",
@@ -237,7 +247,7 @@ addFrogSpecies(
     "In the wild, European Common Frogs typically have a lifespan of about 4 to 8 years, although their longevity can vary based on environmental conditions and threats.",
     "European Common Frogs are not considered highly poisonous or toxic. They do not possess the potent skin toxins seen in some other frog species. However, they can secrete mild toxins, making them less palatable to predators.",
     "European Common Frogs are known for their unique call, which is often heard during the breeding season. The males produce a sound similar to a soft 'ribbit' to attract females. They have a wide range of color variations, including brown, green, and even reddish tones, depending on their surroundings and environmental conditions. During the winter, these frogs hibernate in protected sites, such as leaf litter and underground burrows, to survive the cold temperatures.",
-);
+)
 
 addFrogSpecies(
     "Oriental Fire-bellied Toad (Bombina orientalis)",
@@ -248,7 +258,7 @@ addFrogSpecies(
     "In the wild, Oriental Fire-bellied Toads can live for an average of 5 to 10 years, although this can vary based on environmental conditions and predation.",
     "These toads are mildly toxic. They have skin glands that secrete toxins, which are not usually deadly but can be irritating to potential predators or even humans if the toads are handled. However, their bright coloration serves as a warning to deter predators.",
     "Oriental Fire-bellied Toads are known for their vibrant green and black coloration on their dorsal side and bright orange or red markings on their ventral side. This coloration serves as aposematism, a warning signal to potential predators. When threatened, these toads may secrete a milky substance from their skin that contains toxins, serving as a defense mechanism. They are semi-aquatic and have webbed feet, which are well-suited for swimming and hopping in and around water bodies. Oriental Fire-bellied Toads are often kept as pets due to their striking appearance and relatively simple care requirements in a captive environment.",
-);
+)
 
 addFrogSpecies(
     "White-lipped Tree Frog (Litoria infrafrenata)",
@@ -259,7 +269,7 @@ addFrogSpecies(
     "In the wild, these frogs can have a lifespan of up to 16 years, but the average lifespan may vary based on environmental conditions and predation.",
     "White-lipped Tree Frogs are not considered highly poisonous or toxic. They do not have the potent skin toxins seen in some other frog species.",
     "White-lipped Tree Frogs are known for their striking appearance, with bright green coloration on their dorsal side and a distinctive white stripe along their upper lip, which gives them their name. They are excellent climbers and have adhesive toe pads that allow them to cling to vegetation and move about trees and shrubs. These frogs often inhabit the canopy of rainforests, where they lay their eggs in leaves that collect rainwater, creating small water-filled pools for their tadpoles to develop. White-lipped Tree Frogs are known for their loud and distinctive calls, which are used by males to attract females during the breeding season.",
-);
+)
 
 addFrogSpecies(
     "Brazilian Horned Frog (Ceratophrys aurita)",
@@ -270,7 +280,7 @@ addFrogSpecies(
     "In the wild, Brazilian Horned Frogs can live for an average of 5 to 10 years, although their lifespan may vary based on environmental conditions and the availability of food.",
     "Brazilian Horned Frogs are not considered highly poisonous or toxic in the same way some other frog species are. They do not possess potent skin toxins.",
     "Brazilian Horned Frogs get their name from the pointed, horn-like structures above their eyes, which give them a distinctive appearance. They are often referred to as 'Pacman frogs' due to their large mouth and round body shape. These frogs are sit-and-wait predators. They remain hidden in the leaf litter or soil, waiting for prey to come close, and then they strike with remarkable speed to capture their meal. Brazilian Horned Frogs are known for their adaptability to various environments and can be found in both pristine and disturbed habitats.",
-);
+)
 
 addFrogSpecies(
     "Amazon Milk Frog (Trachycephalus resinifictrix)",
@@ -281,7 +291,7 @@ addFrogSpecies(
     "In the wild, Amazon Milk Frogs can live for up to 10 years or more, depending on environmental conditions and predation. Their lifespan can be influenced by factors such as habitat quality and availability of food.",
     "Amazon Milk Frogs are not known to be highly poisonous or toxic. They lack the potent skin toxins found in some other frog species. However, they have a unique defense mechanism: when threatened, they excrete a milky secretion from their skin, which is a defensive strategy to deter predators.",
     "Amazon Milk Frogs are known for their vibrant green coloration, which serves as camouflage in their leafy habitats. Their bellies are typically creamy white. When threatened, they excrete a sticky, milky substance from their skin, giving them their common name 'Milk Frog.' These frogs are arboreal, meaning they spend a significant amount of time in trees and vegetation. Amazon Milk Frogs are skilled climbers, often found clinging to leaves and branches near water sources.",
-);
+)
 
 addFrogSpecies(
     "Bumblebee Poison Dart Frog (Dendrobates leucomelas)",
@@ -292,7 +302,7 @@ addFrogSpecies(
     "In the wild, Bumblebee Poison Dart Frogs have a relatively long lifespan for a frog, typically living up to 5-7 years or more. In captivity, where they are not exposed to natural predators and stressors, they can live even longer.",
     "Bumblebee Poison Dart Frogs are among the most toxic animals on Earth. They secrete potent neurotoxins through their skin, which can be deadly to potential predators. Indigenous people, such as the native tribes of South America, have been known to use the toxins from these frogs to poison the tips of blowdarts for hunting. However, in captivity, when they are not exposed to the same insects they would consume in the wild, they do not develop these toxins.",
     "Bumblebee Poison Dart Frogs are named for their distinctive black and yellow coloration, which resembles the colors of a bumblebee. This bold coloration serves as a warning to potential predators about their toxicity. The toxic compounds they secrete are known as batrachotoxins, and they are among the most potent natural toxins. Female Bumblebee Poison Dart Frogs lay their eggs in leaf litter on the forest floor. Once hatched, the female transports her tadpoles to small water-filled cavities in plants. These frogs are known for their intricate courtship rituals, which often involve calling and various body movements.",
-);
+)
 
 addFrogSpecies(
     "Green and Black Poison Dart Frog (Dendrobates auratus)",
@@ -303,7 +313,7 @@ addFrogSpecies(
     "In the wild, they can live for about 3 to 6 years. In captivity with proper care, they may live up to 10 years or more.",
     "As the name suggests, the Green and Black Poison Dart Frog is highly toxic. They possess potent skin toxins, particularly batrachotoxin, which is one of the most toxic substances known to humans.",
     "The bright coloration of this frog serves as a warning to potential predators about their toxicity. Indigenous people have used the toxins from these frogs to coat the tips of blowdarts for hunting, giving them the name dart frogs. They are known for their complex social behaviors, including courtship rituals and territorial defense.",
-);
+)
 
 addFrogSpecies(
     "Pine Barrens Treefrog (Hyla andersonii)",
@@ -314,7 +324,7 @@ addFrogSpecies(
     "In the wild, Pine Barrens Treefrogs can live for about 3 to 7 years. However, their lifespan may vary depending on environmental factors.",
     "The Pine Barrens Treefrog is not known to be poisonous or toxic to humans.",
     "They are known for their distinctive call, which sounds like a series of honks or quacks, similar to the call of a duck. The Pine Barrens Treefrog is considered a species of special concern due to its limited range and habitat loss. Their coloration helps them blend in with their surroundings, making them well-adapted to their wetland habitats.",
-);
+)
 
 addFrogSpecies(
     "Moor Frog (Rana arvalis)",
@@ -325,7 +335,7 @@ addFrogSpecies(
     "In the wild, Moor Frogs typically live for about 4 to 8 years. However, their lifespan can vary depending on environmental conditions and predation.",
     "Moor Frogs are not considered poisonous or toxic to humans.",
     "Male Moor Frogs are known for their distinctive blue coloration during the breeding season. This blue coloration is temporary and is used to attract females. They are highly adapted to life in wetland habitats and have specialized webbed feet for efficient swimming. Moor Frogs are considered an important species for the health of wetland ecosystems as they help control insect populations.",
-);
+)
 
 addFrogSpecies(
     "Western Chorus Frog (Pseudacris triseriata)",
@@ -336,7 +346,7 @@ addFrogSpecies(
     "In the wild, Western Chorus Frogs typically live for about 3 to 7 years.",
     "Western Chorus Frogs are not considered poisonous or toxic to humans.",
     "Western Chorus Frogs are known for their distinctive and repetitive calls, which resemble the sound of running a thumbnail along the teeth of a comb. This call is often described as sounding like crreeeek... crreeeek. They are highly adaptable and can thrive in a variety of habitats, making them one of the most widely distributed frogs in North America. These frogs are known for their color variation, which can range from green to brown, depending on factors like temperature and habitat.",
-);
+)
 
 addFrogSpecies(
     "Burmese Peacock Frog (Pseudophilautus species)",
@@ -347,7 +357,7 @@ addFrogSpecies(
     "The exact lifespan of the Burmese Peacock Frog in the wild may vary, but it is generally expected to be a few years.",
     "While specific toxicity information for all Pseudophilautus species may not be widely documented, some members of the genus are known to produce skin toxins as a defense mechanism. It is advisable to exercise caution when handling any wild frog, especially if its toxicity is unknown.",
     "The Burmese Peacock Frog gets its name from the vibrant and striking coloration of some species, resembling the colors of a peacock. Many species of the Pseudophilautus genus are known for their unique and melodious calls, which vary between different species.",
-);
+)
 
 addFrogSpecies(
     "Parachute Frog (Rhacophorus species)",
@@ -358,7 +368,7 @@ addFrogSpecies(
     "The lifespan of Parachute Frogs can vary among species, but they typically live for several years in the wild, with some reaching up to 10 years or more.",
     "Some species of Parachute Frogs are known to possess skin toxins as a defense mechanism. These toxins can be harmful to predators, and in some cases, even to humans. However, not all species within the genus Rhacophorus are toxic, and the level of toxicity may vary.",
     "Parachute Frogs are named for their unique ability to glide or parachute from tree to tree using specialized webbed feet and skin flaps (patagia) that allow them to catch air and glide. Mating behavior in some species involves the male creating a foam nest on leaves overhanging water. The female lays her eggs in this nest, and the male guards and tends to them until they hatch.",
-);
+)
 
 addFrogSpecies(
     "Malaysian Horned Frog (Megophrys nasuta)",
@@ -369,7 +379,7 @@ addFrogSpecies(
     "In the wild, Malaysian Horned Frogs can live for about 7 to 10 years with proper conditions and habitat.",
     "While the Malaysian Horned Frog is not considered highly toxic, they do possess skin toxins as a defense mechanism. These toxins can cause mild irritation or discomfort if they come into contact with mucous membranes or open wounds.",
     "The distinctive horns on their heads are actually bony extensions, known as supraorbital dermal appendages. These structures help them blend into their surroundings by resembling leaf litter or small branches. When threatened, Malaysian Horned Frogs can inflate themselves, making them appear larger and potentially deterring predators.",
-);
+)
 
 addFrogSpecies(
     "Mantella Frog (Mantella species)",
@@ -380,7 +390,7 @@ addFrogSpecies(
     "In the wild, Mantella Frogs typically live for about 5 to 8 years. However, their lifespan can vary depending on environmental conditions.",
     "Many species of Mantella Frogs are known to be toxic or poisonous. They have bright and warning coloration, which serves as an indicator of their toxicity to potential predators.",
     "Mantella Frogs are known for their vibrant and striking colors, which can range from bright reds and oranges to blues and yellows. These colors serve as a warning to predators about their toxicity. They are often referred to as Madagascar's poison dart frogs due to their similarity in appearance and toxicity to the poison dart frogs found in Central and South America. Mantella Frogs have a unique and complex courtship behavior, which includes vocalizations and various visual displays.",
-);
+)
 
 addFrogSpecies(
     "Greening Frog (Hyla gratiosa)",
@@ -391,7 +401,7 @@ addFrogSpecies(
     "In the wild, Greening Frogs typically live for about 3 to 5 years. However, their lifespan can vary depending on environmental conditions and predation.",
     "Greening Frogs are not considered poisonous or toxic to humans.",
     "The Greening Frog gets its name from the vocalization that sounds like a dog's bark or a goose's honk. This distinctive call is most commonly heard during the breeding season. They have adhesive toe pads that allow them to climb and cling to vegetation, making them well-adapted to their arboreal lifestyle.",
-);
+)
 
 addFrogSpecies(
     "White's Tree Frog (Litoria caerulea)",
@@ -402,7 +412,7 @@ addFrogSpecies(
     "In captivity, White's Tree Frogs can live up to 16 years or more with proper care. In the wild, their lifespan is generally shorter due to various environmental factors.",
     "White's Tree Frog is not considered toxic or poisonous to humans.",
     "They are often referred to as dumpy tree frogs due to their plump appearance. White's Tree Frogs have a distinctive, loud, and sometimes shrill call that sounds like a honking horn. They have a unique adaptation that allows them to absorb moisture through their skin, which is particularly useful in arid environments.",
-);
+)
 
 addFrogSpecies(
     "Vietnamese Mossy Frog (Theloderma corticale)",
@@ -413,7 +423,7 @@ addFrogSpecies(
     "In the wild, their lifespan is not extensively documented, but it's estimated to be several years, possibly up to a decade or more, depending on environmental conditions and predation.",
     "Vietnamese Mossy Frogs are not known to be poisonous or toxic like some other frog species. They rely on their cryptic coloration and behavior rather than toxins for protection.",
     "The Vietnamese Mossy Frog gets its name from its unique appearance. Their skin is covered in tubercles and irregularly shaped protuberances, giving them a mossy or lichen-like appearance, which serves as camouflage in their forest habitat. These frogs have an unusual breeding behavior. The female lays her eggs in plant leaves overhanging water, and when the tadpoles hatch, they drop into the water below to continue their development. They are primarily arboreal, meaning they spend a significant portion of their lives in trees and shrubs.",
-);
+)
 
 addFrogSpecies(
     "Coqui Frog (Eleutherodactylus coqui)",
@@ -424,7 +434,7 @@ addFrogSpecies(
     "The lifespan of Coqui Frogs in the wild can vary, but they typically live for several years, with some individuals living up to five years.",
     "Coqui Frogs are not known to be poisonous or toxic. They rely on their ability to blend into their surroundings and their rapid reproductive rate as a survival strategy.",
     "Coqui Frogs are known for their distinctive 'co-qui' call, which is often used to locate other frogs and establish territory. This call can be quite loud and persistent, especially in areas where they have become invasive, causing noise disturbances to local residents. These frogs are known for their high reproductive rate, with females laying large clutches of eggs. Their adaptability to different habitats and rapid reproduction have contributed to their invasive success in some regions. In areas where Coqui Frogs have become invasive, they can have negative ecological impacts on local ecosystems. Their presence can disrupt native ecosystems and threaten native species.",
-);
+)
 
 addFrogSpecies(
     "Budgett's Frog (Paraguay Frog, Paratelmatobius cf. poecilogaster)",
@@ -435,7 +445,7 @@ addFrogSpecies(
     "The precise lifespan of Budgett's Frogs in the wild is not extensively documented, but they can live for several years under suitable conditions, possibly up to a decade or more.",
     "Budgett's Frogs are not known to be highly poisonous or toxic. They lack the potent skin toxins found in some other frog species, and their defense strategy primarily relies on their appearance.",
     "Budgett's Frogs are known for their distinctive appearance, which includes a wide, grinning mouth. This appearance is often referred to as a 'smiling frog' or 'Paraguay Horned Frog.' Their unique appearance, with a flattened body and mouth, helps them blend into their aquatic environment, making them excellent ambush predators. While not highly poisonous, their appearance might serve as a deterrent to potential predators.",
-);
+)
 
 addFrogSpecies(
     "Solomon Island Leaf Frog (Ceratobatrachus guentheri)",
@@ -446,7 +456,7 @@ addFrogSpecies(
     "The precise lifespan of the Solomon Island Leaf Frog in the wild isn't well-documented, but it is estimated to be several years, typically up to 5 years or more, depending on environmental conditions and predation.",
     "The Solomon Island Leaf Frog is not known to be highly poisonous or toxic. They lack the potent skin toxins found in some other frog species.",
     "These frogs are known for their striking green coloration and unique leaf-like appearance, which helps them blend into their rainforest habitat. Their large, webbed feet and the fringed edges of their skin flaps aid in gliding from tree to tree, giving them a unique ability to move through the rainforest canopy. Solomon Island Leaf Frogs are adapted to an arboreal (tree-dwelling) lifestyle and are skilled climbers, often found in vegetation above water.",
-);
+)
 
 addFrogSpecies(
     "Paraguay Horned Frog (Ceratophrys cranwelli)",
@@ -457,7 +467,7 @@ addFrogSpecies(
     "In the wild, Paraguay Horned Frogs typically have a lifespan of up to 5 to 10 years, depending on environmental conditions and predation.",
     "While these frogs are not typically considered poisonous, they have a defense mechanism involving inflating their bodies when threatened, which can make them less palatable to potential predators. They also have strong jaws and sharp teeth, which can deliver a powerful bite if necessary.",
     "The Paraguay Horned Frog gets its name from the bony, horn-like projections over its eyes, which are believed to serve a defensive purpose. They have a broad mouth and a voracious appetite, often consuming prey nearly the same size as themselves. These frogs are known for their unique and powerful bite, and they are sometimes referred to as 'Pac-Man frogs' because of their mouth size and feeding behavior. Paraguay Horned Frogs are adapted to a semi-aquatic lifestyle and are often found near water. They spend much of their time lying in wait for unsuspecting prey.",
-);
+)
 
 addFrogSpecies(
     "Fire-bellied Toad (Bombina species)",
@@ -468,7 +478,7 @@ addFrogSpecies(
     "In the wild, Fire-bellied toads typically have a lifespan of up to 10 to 15 years, depending on environmental conditions and predation.",
     "Fire-bellied toads are known for their colorful ventral (belly) skin, which typically features bright red or orange coloration. This serves as a warning to potential predators that they are toxic. They produce toxins through their skin glands, which can be irritating or even toxic to predators that attempt to consume them. While not extremely toxic to humans, it's essential to handle them with care.",
     "Fire-bellied toads are named for their strikingly colorful belly patterns, which they display as a warning signal to potential predators. These toads are well adapted to both terrestrial and aquatic environments, often found near water bodies. They are known for their unique behavior of arching their bodies and displaying their bright, contrasting colors when they feel threatened. Some species within the Bombina genus are popular as pets in the exotic pet trade, thanks to their vibrant coloration and relatively small size.",
-);
+)
 
 addFrogSpecies(
     "Panamanian Golden Frog (Atelopus zeteki)",
@@ -479,7 +489,7 @@ addFrogSpecies(
     "The lifespan of these frogs in the wild is not extensively documented but is estimated to be several years, typically up to five years or more, depending on environmental conditions and predation.",
     "Panamanian Golden Frogs are highly toxic. They are known for their potent skin toxins, which they use as a defense mechanism against predators. These toxins can be harmful or even deadly to animals that attempt to consume them. Their bright coloration serves as a warning signal to potential predators, indicating their toxicity.",
     "Panamanian Golden Frogs are culturally significant in Panama and are considered a national symbol and good luck charm. Their vibrant golden coloration makes them visually striking and easily recognizable. Males are known for their distinctive and melodious calls, which they use to communicate with potential mates. Chytridiomycosis, a fungal disease affecting amphibians worldwide, has had a devastating impact on Panamanian Golden Frogs, and they are currently critically endangered in the wild.",
-);
+)
 
 addFrogSpecies(
     "Green Tree Frog (Hyla cinerea)",
@@ -490,7 +500,7 @@ addFrogSpecies(
     "In the wild, Green Tree Frogs typically have a lifespan of 5 to 10 years, depending on factors such as environmental conditions and predation.",
     "Green Tree Frogs are not known to be highly poisonous or toxic. They lack the potent skin toxins found in some other frog species.",
     "Green Tree Frogs are known for their vibrant green coloration, which serves as camouflage in their leafy habitats. They are excellent climbers and can often be found clinging to vegetation near water sources. These frogs are often heard at night, producing a distinctive and pleasant-sounding call, which can vary by region. Green Tree Frogs are adaptable and can thrive in various environments, including urban areas with suitable habitats.",
-);
+)
 
 addFrogSpecies(
     "Golden Poison Dart Frog (Phyllobates terribilis)",
@@ -501,7 +511,7 @@ addFrogSpecies(
     "In captivity, Golden Poison Dart Frogs can live up to 10 to 15 years. However, their lifespan in the wild may vary and is influenced by various factors.",
     "The Golden Poison Dart Frog is one of the most toxic animals on Earth. Its skin contains potent neurotoxins known as batrachotoxins, which are extremely toxic and can be deadly if ingested. Indigenous people have used the toxic secretions from these frogs to poison the tips of blowdarts for hunting, hence their name.",
     "The vibrant colors of the Golden Poison Dart Frog serve as a warning to potential predators that they are toxic. These frogs are aposematic, meaning they use bright coloration to signal their toxicity. The toxicity of these frogs is thought to be linked to their diet. In captivity, where they are not exposed to the same diet as in the wild, they do not develop the same level of toxicity. There are some local indigenous communities that have used the toxins from these frogs for centuries to poison their blowgun darts for hunting.",
-);
+)
 
 addFrogSpecies(
     "African Clawed Frog (Xenopus laevis)",
@@ -512,7 +522,7 @@ addFrogSpecies(
     "In the wild, African Clawed Frogs typically live for 5 to 15 years, but in captivity, they can live even longer with proper care.",
     "African Clawed Frogs are not considered poisonous or toxic like some other frog species. They lack the potent skin toxins found in many amphibians. However, their skin secretions can be irritating to human skin and mucous membranes, so it's essential to handle them with care.",
     "These frogs are known for their distinctive appearance, including webbed feet and small claws, which give them their name. African Clawed Frogs have been widely used in scientific research, especially in the fields of developmental biology and genetics. They are one of the few amphibian species that do not undergo a true metamorphosis; instead, they retain their aquatic, tadpole-like characteristics throughout their lives.",
-);
+)
 
 addFrogSpecies(
     "Glass Frog (Centrolenidae family)",
@@ -523,7 +533,7 @@ addFrogSpecies(
     "The lifespan of Glass Frogs in the wild varies by species but is estimated to be several years, typically up to 5 years or more, depending on environmental conditions and predation.",
     "While many species of frogs are known for their skin toxins, Glass Frogs are generally not considered highly poisonous or toxic. They lack the potent skin toxins found in some other frog families.",
     "The primary distinguishing feature of Glass Frogs is their translucent skin, which allows you to see their internal organs, including the heart, liver, and gastrointestinal tract. These frogs are known for their unique breeding behavior. Males often guard and protect their eggs, which they attach to the undersides of leaves hanging over streams. This protects the eggs from aquatic predators.",
-);
+)
 
 addFrogSpecies(
     "Tomato Frog (Dyscophus species)",
@@ -534,7 +544,7 @@ addFrogSpecies(
     "The lifespan of Tomato Frogs in the wild is not extensively documented but is estimated to be several years, typically up to 5 years or more.",
     "Tomato Frogs are known for their skin toxins, which can be harmful to potential predators. The bright red or orange coloration is an aposematic warning to predators, signaling their toxicity. When threatened, they can secrete a milky substance from their skin that contains toxins, causing irritation or harm to potential predators.",
     "Tomato Frogs are named for their vibrant red or orange coloration, which resembles a ripe tomato. This bright color serves as a warning to predators that they are toxic, and their skin secretions can be harmful. They have a robust and heavy build compared to some other frogs, which contributes to their distinctive appearance. Tomato Frogs are known for their explosive breeding behavior, which often occurs after heavy rainfall. Males call loudly to attract females, and they lay their eggs in temporary pools of water where tadpoles develop.",
-);
+)
 
 addFrogSpecies(
     "Goliath Frog (Conraua goliath)",
@@ -545,7 +555,7 @@ addFrogSpecies(
     "The exact lifespan of Goliath Frogs in the wild is not well-documented, but they are believed to live several years. In captivity, they may live longer, potentially up to 15 years.",
     "Goliath Frogs are not known to be poisonous or toxic in the same way some other frog species are. They rely more on their size and camouflage for protection.",
     "Goliath Frogs are the world's largest frogs, both in terms of size and weight. Their massive appearance and size distinguish them from most other frog species. They have a remarkable and unique breeding behavior, where the male frogs call loudly to attract females. The female Goliath Frogs lay their eggs in or near fast-flowing rivers, and the male guards the eggs and tadpoles until they metamorphose into froglets. The large size of Goliath Frogs is thought to be an adaptation to the fast-flowing streams they inhabit. Their size helps them withstand the strong currents and maintain their position within the water. Goliath Frogs have a greenish-brown coloration with mottled patterns on their skin, which provides excellent camouflage in their lush rainforest environment.",
-);
+)
 
 addFrogSpecies(
     "Wood Frog (Rana sylvatica)",
@@ -556,7 +566,7 @@ addFrogSpecies(
     "In the wild, Wood Frogs typically have a lifespan of 2 to 3 years, although some individuals may live longer under favorable conditions.",
     "Wood Frogs are not known to be highly poisonous or toxic. They lack the potent skin toxins found in some other frog species.",
     "Wood Frogs are well adapted to their cold habitats and can endure freezing temperatures during hibernation. They enter a state of hibernation in the winter months, where their bodies can freeze and then thaw when they awaken in the spring. These frogs have a relatively wide distribution range across North America, and they are often found in forested areas with access to suitable breeding sites. The ability of Wood Frogs to tolerate freezing temperatures is due to the production of a cryoprotectant substance that prevents ice formation within their cells. This adaptation allows them to survive in cold climates.",
-);
+)
 
 addFrogSpecies(
     "Poison Dart Frog (Dendrobatidae family)",
@@ -567,7 +577,7 @@ addFrogSpecies(
     "The lifespan of Poison Dart Frogs can vary by species but is typically several years in the wild. In captivity, they can live longer under suitable conditions.",
     "Many species of Poison Dart Frogs are highly toxic, and their skin secretes potent toxins. These toxins are used as a defense mechanism to deter potential predators. Indigenous peoples in their native regions have used these toxins to poison the tips of blowdarts for hunting, hence the name 'dart frog.' The level of toxicity can vary among species, and not all members of the family are toxic. Captive-bred Poison Dart Frogs often lack the same level of toxicity as their wild counterparts because their diet in captivity is different.",
     "Some species of Poison Dart Frogs exhibit vibrant and striking coloration, which is thought to be a warning to potential predators about their toxicity. The toxins of Poison Dart Frogs are believed to come from their diet in the wild, particularly ants and other small arthropods. In captivity, when they are not exposed to the same diet, they may lose their toxicity. Poison Dart Frogs are known for their complex social behaviors and vocalizations, which are used for communication and territorial purposes.",
-);
+)
 
 addFrogSpecies(
     "Red-eyed Tree Frog (Agalychnis callidryas)",
@@ -578,7 +588,7 @@ addFrogSpecies(
     "In the wild, Red-eyed Tree Frogs typically have a lifespan of about 5 years. However, they may live longer in captivity under suitable conditions.",
     "Red-eyed Tree Frogs are not considered highly poisonous or toxic like some other frog species. Their skin does secrete a mild toxin, but it is generally not dangerous to humans. Their bright colors are more of a warning to predators that they are not safe to eat.",
     "Red-eyed Tree Frogs are known for their striking and vibrant appearance, with their bright green bodies, blue flanks, orange toes, and, of course, their large, bright red eyes. They have specialized toe pads that help them cling to leaves and branches in the trees. These toe pads are lined with tiny adhesive disks. Red-eyed Tree Frogs are nocturnal, meaning they are most active at night. During the day, they rest on leaves with their eyes closed to conserve energy and hide from potential predators. Mating rituals of Red-eyed Tree Frogs are quite interesting, involving calling to attract mates, amplexus (the mating embrace), and the male fertilizing the eggs as the female lays them on leaves overhanging water.",
-);
+)
 
 addFrogSpecies(
     "American Bullfrog (Lithobates catesbeianus)",
@@ -589,7 +599,7 @@ addFrogSpecies(
     "In the wild, American Bullfrogs can live for several years, typically around 7 to 9 years. Their lifespan may vary depending on factors like habitat quality and predation.",
     "American Bullfrogs are not considered poisonous or toxic to humans. However, they do have a set of powerful jaws and sharp teeth, so handling them can result in a painful bite. It's also worth noting that the skin of amphibians like the American Bullfrog can secrete toxins, but these are not typically harmful to humans.",
     "The American Bullfrog is known for its distinctive 'jug-o'-rum' call, which is a loud, resonant, and repetitive sound produced by the males during the breeding season. They have a unique and characteristic olive-green coloration with a light-colored belly. American Bullfrogs are considered invasive species in some regions where they have been introduced. Their large size and voracious appetite can have negative impacts on local ecosystems, especially when they outcompete native species. Bullfrogs are powerful swimmers and are capable of leaping great distances when attempting to escape predators.",
-);
+)
 
 addFrogSpecies(
     "Purple Frog (Nasikabatrachus sahyadrensis)",
@@ -600,14 +610,11 @@ addFrogSpecies(
     "The lifespan of Purple Frogs in the wild is not well-documented, but they likely have a relatively long lifespan, possibly several years.",
     "Purple Frogs are not known to be poisonous or toxic. Their adaptation to burrowing and the underground environment makes them less exposed to potential predators. Their skin is not known to secrete toxins.",
     "Purple Frogs are known for their unique and peculiar appearance. They have a stout, bloated body with a purplish-brown coloration. They have a wrinkled and tubular body shape, which is an adaptation for their burrowing lifestyle. These frogs are fossorial, meaning they spend most of their lives underground. They emerge briefly during the monsoon season to breed. Purple Frogs are famous for their unusual and loud calls, which are often described as 'mooing' sounds. These vocalizations play a significant role in their breeding behavior. They are an ancient and primitive frog species, and their lineage is estimated to be over 100 million years old.",
-);
-
-for frog in frog_species_list:
-    frog.print_info()
+)
 
 @app.route('/posts', methods=["GET"])
 def post():
-    return jsonify(frogSpeciesArray)
+    return jsonify(frog_species_list)
     
 @app.before_first_request
 def activate_job():  # activate these items 
