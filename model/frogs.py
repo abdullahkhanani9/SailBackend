@@ -78,7 +78,7 @@ frog_list = [
         "habitat": "This species is commonly found in the tropical rainforests of Central America and northern South America...",
         "predators": "Predators of the Hourglass Tree Frog can include snakes, birds, larger amphibians, and various small mammals. They may also be preyed upon by certain invertebrates...",
         "diet": "Hourglass Tree Frogs primarily feed on a diet of small insects and invertebrates, including ants, flies, and other arthropods...",
-        "lifespan": "The average lifespan of the Hourglass Tree Frog is around 5 years
+        "lifespan": "The average lifespan of the Hourglass Tree Frog is around 5 years."
     }
      {
         "name": "Sumaco Horned Frog (Hemiphractus proboscideus)",
