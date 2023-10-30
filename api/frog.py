@@ -11,8 +11,8 @@ api = Api(frog_item_api)
 
 # Rest of your code remains the same
 
-if __name__ == "__main__": 
-    server = 'https://your-server-url-here'  # Replace with your actual server URL
+if __name__ == "https://projectsailbackend.stu.nighthawkcodingsociety.com": 
+    server = 'https://projectsailbackend.stu.nighthawkcodingsociety.com'  # Replace with your actual server URL
     url = server + "/api/frog-items"
     responses = []
 
