@@ -612,7 +612,7 @@ addFrogSpecies(
     "Purple Frogs are known for their unique and peculiar appearance. They have a stout, bloated body with a purplish-brown coloration. They have a wrinkled and tubular body shape, which is an adaptation for their burrowing lifestyle. These frogs are fossorial, meaning they spend most of their lives underground. They emerge briefly during the monsoon season to breed. Purple Frogs are famous for their unusual and loud calls, which are often described as 'mooing' sounds. These vocalizations play a significant role in their breeding behavior. They are an ancient and primitive frog species, and their lineage is estimated to be over 100 million years old.",
 )
 
-@app.route('/posts', methods=["GET"])
+@app.route('/', methods=["GET"])
 def post():
     return jsonify(frog_species_list)
     
