@@ -1,6 +1,7 @@
 import random
 
 frogs_data = []
+
 frog_list = [
     {
         "name": "Sumaco Horned Frog (Hemiphractus proboscideus)",
@@ -441,11 +442,11 @@ def initFrogItems():
         frog_items_data.append({"id": item_id, "item": item, "likes": 0, "dislikes": 0})
         item_id += 1
     # Prime some like responses
-    for i in range(10):
+    for _ in range(10):
         id = getRandomFrogItem()['id']
         addFrogItemLike(id)
     # Prime some dislike responses
-    for i in range(5):
+    for _ in range(5):
         id = getRandomFrogItem()['id']
         addFrogItemDislike(id)
 
@@ -491,30 +492,29 @@ def addFrogItemDislike(id):
     frog_items_data[id]['dislikes'] = frog_items_data[id]['dislikes'] + 1
     return frog_items_data[id]['dislikes']
 
-# Pretty Print frog item
-def printFrogItem(frog_item):
-    print(frog_item['id'], frog_item['item'], "\n", "Likes:", frog_item['likes'], "\n", "Dislikes:", frog_item['dislikes'], "\n")
-
 # Number of frog items
 def countFrogItems():
     return len(frog_items_data)
 
+# Pretty Print frog item
+def printFrogItem(frog_item):
+    print(frog_item['id'], frog_item['item'], "\n", "Likes:", frog_item['likes'], "\n", "Dislikes:", frog_item['dislikes'], "\n")
+
 # Test Frog Item Model
 if __name__ == "__main__": 
-    initJokes()  # initialize jokes
-    
-    # Most likes and most jeered
-    best = favoriteJoke()
-    print("Most liked", best['haha'])
-    printJoke(best)
-    worst = jeeredJoke()
-    print("Most jeered", worst['boohoo'])
-    printJoke(worst)
-    
-    # Random joke
-    print("Random joke")
-    printJoke(getRandomJoke())
-    
-    # Count of Jokes
-    print("Jokes Count: " + str(countJokes()))
-    
+    initFrogItems()  # initialize frog items
+
+    # Most liked and least liked frog items
+    best = favoriteFrogItem()
+    print("Most liked:")
+    printFrogItem(best)
+    worst = dislikedFrogItem()
+    print("Least liked:")
+    printFrogItem(worst)
+
+    # Random frog item
+    print("Random frog item:")
+    printFrogItem(getRandomFrogItem())
+
+    # Count of frog items
+    print("Frog Items Count: " + str(countFrogItems()))

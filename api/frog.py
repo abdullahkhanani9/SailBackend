@@ -1,81 +1,46 @@
 from flask import Blueprint, jsonify
 from flask_restful import Api, Resource
 import random
-from model.frog_items import *
+import requests  # Add this import statement
+from model.frog_items import *  # Make sure this import is correct
 
 frog_item_api = Blueprint('frog_item_api', __name__,
                    url_prefix='/api/frog-items')
 
 api = Api(frog_item_api)
 
-class FrogItemsAPI:
-    class _Create(Resource):
-        def post(self, item):
-            pass
-            
-    class _Read(Resource):
-        def get(self):
-            return jsonify(getFrogItems())
+# Rest of your code remains the same
 
-    class _ReadID(Resource):
-        def get(self, id):
-            return jsonify(getFrogItem(id))
-
-    class _ReadRandom(Resource):
-        def get(self):
-            return jsonify(getRandomFrogItem())
-    
-    class _ReadCount(Resource):
-        def get(self):
-            count = countFrogItems()
-            countMsg = {'count': count}
-            return jsonify(countMsg)
-
-    class _UpdateLike(Resource):
-        def put(self, id):
-            addFrogItemLike(id)
-            return jsonify(getFrogItem(id))
-
-    class _UpdateDislike(Resource):
-        def put(self, id):
-            addFrogItemDislike(id)
-            return jsonify(getFrogItem(id))
-
-    api.add_resource(_Create, '/create/<string:item>')
-    api.add_resource(_Read, '/')
-    api.add_resource(_ReadID, '/<int:id>')
-    api.add_resource(_ReadRandom, '/random')
-    api.add_resource(_ReadCount, '/count')
-    api.add_resource(_UpdateLike, '/like/<int:id>')
-    api.add_resource(_UpdateDislike, '/dislike/<int:id>')
-
-if __name__ == "__main__": 
-    server = 'https://flask.nighthawkcodingsociety.com'
+if __name__ == '__main__':
+    server = 'https://projectsailbackend.stu.nighthawkcodingsociety.com'  # Replace with your actual server URL
     url = server + "/api/frog-items"
     responses = []
 
-    count_response = requests.get(url+"/count")
+    count_response = requests.get(url + "/count")
     count_json = count_response.json()
     count = count_json['count']
 
-    num = str(random.randint(0, count-1))
+    num = str(random.randint(0, count - 1))
     responses.append(
-        requests.get(url+"/"+num)
-    ) 
+        requests.get(url + "/" + num)
+    )
     responses.append(
-        requests.put(url+"/like/"+num)
-    ) 
+        requests.put(url + "/like/" + num)
+    )
     responses.append(
-        requests.put(url+"/dislike/"+num)
-    ) 
+        requests.put(url + "/dislike/" + num)
+    )
 
     responses.append(
-        requests.get(url+"/random")
-    ) 
+        requests.get(url + "/random")
+    )
 
     for response in responses:
         print(response)
         try:
-            print(response.json())
-        except:
-            print("unknown error")
+            response_json = response.json()
+            print(response_json)
+        except ValueError:
+            print("Error: Invalid JSON response")
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
