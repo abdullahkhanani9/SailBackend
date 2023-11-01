@@ -154,16 +154,16 @@ frogs_data = []
 
 class FrogSpecies(db.Model):
     __tablename__ = "FrogSpecies"
-    name = db.Column(db.String, primary_Key=True)
-    size = db.Column(db.String, primary_Key=True)
-    habitat = db.Column(db.String, primary_Key=True)
-    predators = db.Column(db.String, primary_Key=True)
-    diet = db.Column(db.String, primary_Key=True)
-    lifespan = db.Column(db.String, primary_Key=True)
-    toxicity = db.Column(db.String, primary_Key=True)
-    fun_facts = db.Column(db.String, primary_Key=True)
-#    image = db.Column(db.String, primary_key=True) 
-    db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    size = db.Column(db.String)
+    habitat = db.Column(db.String)
+    predators = db.Column(db.String)
+    diet = db.Column(db.String)
+    lifespan = db.Column(db.String)
+    toxicity = db.Column(db.String)
+    fun_facts = db.Column(db.String)
+#    image = db.Column(db.String) 
+    db.Column(db.Integer, primaryKey=True)
     def __init__(self, name, size, habitat, predators, diet, lifespan, toxicity, fun_facts):
         self.name = name
         self.size = size
