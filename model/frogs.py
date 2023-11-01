@@ -154,16 +154,16 @@ frogs_data = []
 
 class FrogSpecies(db.Model):
     __tablename__ = "FrogSpecies"
-    name = db.Column(db.String, primary_key=True)
-    size = db.Column(db.String, primary_key=True)
-    habitat = db.Column(db.String, primary_key=True)
-    predators = db.Column(db.String, primary_key=True)
-    diet = db.Column(db.String, primary_key=True)
-    lifespan = db.Column(db.String, primary_key=True)
-    toxicity = db.Column(db.String, primary_key=True)
-    fun_facts = db.Column(db.String, primary_key=True)
-#    image = db.Column(db.String, primary_key=True)
-    db.Column(db.Integer, primary_key=True) 
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, unique=True)
+    size = db.Column(db.String)
+    habitat = db.Column(db.String)
+    predators = db.Column(db.String)
+    diet = db.Column(db.String)
+    lifespan = db.Column(db.String)
+    toxicity = db.Column(db.String)
+    fun_facts = db.Column(db.String)
+#    image = db.Column(db.String, primary_key=True) 
     def __init__(self, name, size, habitat, predators, diet, lifespan, toxicity, fun_facts):
         self.name = name
         self.size = size
@@ -190,7 +190,7 @@ def initFrogs():
         db.session.add(frog2)
     exists = FrogSpecies.query.filter_by(name = "Peruvian Toad (Rhinella peruviana)").first() 
     if not exists:
-        frog3 = FrogSpecies(size="Peruvian Toads are medium to large-sized amphibians, typically reaching a size of around 2.4 to 4 inches (6 to 10 centimeters) in length.", habitat="Peruvian Toads are found in various countries in South America, including Peru, Ecuador, and Bolivia. They inhabit a range of environments, including tropical rainforests and montane forests.", predators="Predators of the Peruvian Toad may include snakes, large birds, and some mammals. They may also face threats from human activities, such as habitat destruction.", diet="Peruvian Toads are primarily insectivorous, and they feed on a diet consisting of a variety of insects and other invertebrates. Their diet may include ants, beetles, and other small arthropods.", lifespan="The average lifespan of the Peruvian Toad in the wild is not precisely documented but is estimated to be around 5 to 10 years.", toxicity="Peruvian Toads, like many toad species, secrete toxins through their skin. These toxins can be harmful or even deadly to predators that attempt to consume them. However, the level of toxicity can vary among individuals and is often more pronounced in certain regions or populations.", fun_facts="The Peruvian Toad is a species known for its warty skin and distinctive coloration, which can help it blend into its environment. As with many toad species, the toxins they secrete from their skin glands serve as a defense mechanism against potential predators. Toads, including the Peruvian Toad, have specialized parotoid glands behind their eyes that release toxins when threatened. These toads are important components of their ecosystems and contribute to insect population control due to their diet.",)
+        frog3 = FrogSpecies(name="Peruvian Toad (Rhinella peruviana)", size="Peruvian Toads are medium to large-sized amphibians, typically reaching a size of around 2.4 to 4 inches (6 to 10 centimeters) in length.", habitat="Peruvian Toads are found in various countries in South America, including Peru, Ecuador, and Bolivia. They inhabit a range of environments, including tropical rainforests and montane forests.", predators="Predators of the Peruvian Toad may include snakes, large birds, and some mammals. They may also face threats from human activities, such as habitat destruction.", diet="Peruvian Toads are primarily insectivorous, and they feed on a diet consisting of a variety of insects and other invertebrates. Their diet may include ants, beetles, and other small arthropods.", lifespan="The average lifespan of the Peruvian Toad in the wild is not precisely documented but is estimated to be around 5 to 10 years.", toxicity="Peruvian Toads, like many toad species, secrete toxins through their skin. These toxins can be harmful or even deadly to predators that attempt to consume them. However, the level of toxicity can vary among individuals and is often more pronounced in certain regions or populations.", fun_facts="The Peruvian Toad is a species known for its warty skin and distinctive coloration, which can help it blend into its environment. As with many toad species, the toxins they secrete from their skin glands serve as a defense mechanism against potential predators. Toads, including the Peruvian Toad, have specialized parotoid glands behind their eyes that release toxins when threatened. These toads are important components of their ecosystems and contribute to insect population control due to their diet.",)
         db.session.add(frog3)
     exists = FrogSpecies.query.filter_by(name = "American Bullfrog (Lithobates catesbeianus").first()
     if not exists:
