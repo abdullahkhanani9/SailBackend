@@ -58,10 +58,10 @@ def frog():
 
 @app.before_first_request
 def activate_job():  # activate these items 'Flask' object has no attribute 'before_first_request
+    initFrogs()
     initJokes()
     initUsers()
     initPlayers()
-    initFrogs()
 
 # addFrogSpecies(
 #     "Sumaco Horned Frog (Hemiphractus proboscideus)", 
