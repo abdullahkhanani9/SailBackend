@@ -1,6 +1,6 @@
 from __init__ import db
 frogs_data = []
-
+ 
 # frog_list = [
 #     {
 #         "name": "Sumaco Horned Frog (Hemiphractus proboscideus)",
