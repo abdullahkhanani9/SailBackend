@@ -1,7 +1,7 @@
 import threading
 
 # import "packages" from flask
-from flask import render_template, jsonify  # import render_template from "public" flask libraries
+from flask import render_template, request, jsonify  # import render_template from "public" flask libraries
 
 # import "packages" from "this" project
 from __init__ import app, db  # Definitions initialization
@@ -45,12 +45,23 @@ def index():
 def table():    
     return render_template("table.html")
 
+@app.route('/Frogs')  # connects /stub/ URL to stub() function
+def Sumaco(): 
+    name = request.args.get("name")
+    print(name) 
+    data={'name': name}  
+    return render_template("2023-10-10-Sumaco.html", data=data)
+
+@app.route('/frog')  # connects /stub/ URL to stub() function
+def frog():    
+    return render_template("frog.html")
+
 @app.before_first_request
 def activate_job():  # activate these items 'Flask' object has no attribute 'before_first_request
+    initFrogs()
     initJokes()
     initUsers()
     initPlayers()
-    initFrogs()
 
 # addFrogSpecies(
 #     "Sumaco Horned Frog (Hemiphractus proboscideus)", 

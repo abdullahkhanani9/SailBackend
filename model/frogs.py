@@ -1,4 +1,7 @@
-from __init__ import db
+from __init__ import app, db
+from sqlalchemy.exc import IntegrityError
+import json
+
 frogs_data = []
  
 # frog_list = [
@@ -154,16 +157,17 @@ frogs_data = []
 
 class FrogSpecies(db.Model):
     __tablename__ = "FrogSpecies"
-    name = db.Column(db.String, primary_key=True)
-    size = db.Column(db.String, primary_key=True)
-    habitat = db.Column(db.String, primary_key=True)
-    predators = db.Column(db.String, primary_key=True)
-    diet = db.Column(db.String, primary_key=True)
-    lifespan = db.Column(db.String, primary_key=True)
-    toxicity = db.Column(db.String, primary_key=True)
-    fun_facts = db.Column(db.String, primary_key=True)
-#    image = db.Column(db.String, primary_key=True)
-    db.Column(db.Integer, primary_key=True) 
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), unique=False, nullable=False)
+    size = db.Column(db.String(255), unique=False, nullable=False)
+    habitat = db.Column(db.String(255), unique=False, nullable=False)
+    predators = db.Column(db.String(255), unique=False, nullable=False)
+    diet = db.Column(db.String(255), unique=False, nullable=False)
+    lifespan = db.Column(db.String(255), unique=False, nullable=False)
+    toxicity = db.Column(db.String(255), unique=False, nullable=False)
+    fun_facts = db.Column(db.String(255), unique=False, nullable=False)
+#    image = db.Column(db.String) 
+    # db.Column(db.Integer, primaryKey=True)
     def __init__(self, name, size, habitat, predators, diet, lifespan, toxicity, fun_facts):
         self.name = name
         self.size = size
@@ -177,11 +181,59 @@ class FrogSpecies(db.Model):
 
     def to_dict(self):
         return {"name": self.name, "size": self.size, "habitat": self.habitat, "predators": self.predators, "diet": self.size, "lifespan": self.lifespan, "toxicity": self.toxicity, "fun_facts": self.toxicity}
+    
+    def create(self):
+        try:
+            # creates a player object from Player(db.Model) class, passes initializers
+            db.session.add(self)  # add prepares to persist person object to Users table
+            db.session.commit()  # SqlAlchemy "unit of work pattern" requires a manual commit
+            return self
+        except IntegrityError:
+            db.session.remove()
+            return None
 
+    def read(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "uid": self.uid,
+            "tokens": self.tokens,
+            "password": self._password
+        }
+
+    def delete(self):
+        player = self
+        db.session.delete(self)
+        db.session.commit()
+        return player
+    
+    def __str__(self):
+        return json.dumps(self.read())
 
 def initFrogs():
-    frog1 = FrogSpecies(name="Plains Leopard Frog (Lithobates blairi)", size= "Plains Leopard Frogs are medium-sized frogs, typically ranging from about 2 to 3 inches (5 to 7.6 centimeters) in length.", habitat="These frogs are found in a variety of habitats, including grasslands, prairies, wetlands, and semi-aquatic environments. They are native to parts of North America, including the Great Plains region.", predators="Predators of Plains Leopard Frogs may include snakes, birds, larger amphibians, and various small mammals. Additionally, they may face threats from certain invertebrates.", diet="Plains Leopard Frogs are insectivorous and primarily feed on a diet of insects, spiders, and other small invertebrates.", lifespan="The typical lifespan of Plains Leopard Frogs in the wild is around 2 to 4 years, although this can vary based on environmental conditions and predation.", toxicity="Plains Leopard Frogs are not known to be highly poisonous or toxic. They lack the potent skin toxins found in some other frog species.", fun_facts="These frogs get their name from the spots and blotchy patterns on their skin, resembling a leopard's spots. They are known for their distinctive vocalizations during the breeding season, which sound like chuckling laughter. Plains Leopard Frogs are adapted to a variety of terrestrial and aquatic habitats, and they often inhabit grasslands and wetlands with temporary or semi-permanent water bodies. During the breeding season, males call from the water to attract females for mating.")
-    db.session.add(frog1)
-    frog2 = FrogSpecies(name="Sumaco Horned Frog (Hemiphractus proboscideus)", size= "The Sumaco Horned Frog is medium-sized, typically reaching a size of around 1.5 to 2 inches (3.8 to 5 centimeters).", habitat="The Sumaco Horned Frog is native to the cloud forests of Ecuador in South America. It is found in the Sumaco Volcano area, which is its namesake.", predators="Predators of the Sumaco Horned Frog may include snakes and certain birds that inhabit the same region.", diet="Sumaco Horned Frogs primarily feed on insects and small invertebrates in their natural habitat.", lifespan="The typical lifespan of the Sumaco Horned Frog in the wild is around 8 to 10 years.", toxicity="The Sumaco Horned Frog is not considered highly poisonous or toxic. It does not possess the potent skin toxins seen in some other frog species.", fun_facts="The Sumaco Horned Frog gets its name from the distinctive bony horn-like protrusions above its eyes, which give it a unique appearance.These frogs have a cryptic coloration, often resembling moss or lichen, helping them blend into their forest environment. They are known for their unique reproductive behavior, with males guarding eggs and tadpoles, which they carry on their backs. This species is native to a specific and limited geographic range, making it an interesting subject of study and conservation concern.")
-    db.session.add(frog2)
-    db.session.commit()
+    with app.app_context():
+        """Create database and tables"""
+        db.create_all()
+        """Tester records for table"""
+        frogs = [
+            FrogSpecies(name="Plains Leopard Frog (Lithobates blairi)", size= "Plains Leopard Frogs are medium-sized frogs, typically ranging from about 2 to 3 inches (5 to 7.6 centimeters) in length.", habitat="These frogs are found in a variety of habitats, including grasslands, prairies, wetlands, and semi-aquatic environments. They are native to parts of North America, including the Great Plains region.", predators="Predators of Plains Leopard Frogs may include snakes, birds, larger amphibians, and various small mammals. Additionally, they may face threats from certain invertebrates.", diet="Plains Leopard Frogs are insectivorous and primarily feed on a diet of insects, spiders, and other small invertebrates.", lifespan="The typical lifespan of Plains Leopard Frogs in the wild is around 2 to 4 years, although this can vary based on environmental conditions and predation.", toxicity="Plains Leopard Frogs are not known to be highly poisonous or toxic. They lack the potent skin toxins found in some other frog species.", fun_facts="These frogs get their name from the spots and blotchy patterns on their skin, resembling a leopard's spots. They are known for their distinctive vocalizations during the breeding season, which sound like chuckling laughter. Plains Leopard Frogs are adapted to a variety of terrestrial and aquatic habitats, and they often inhabit grasslands and wetlands with temporary or semi-permanent water bodies. During the breeding season, males call from the water to attract females for mating."),
+            FrogSpecies(name="Sumaco Horned Frog (Hemiphractus proboscideus)", size= "The Sumaco Horned Frog is medium-sized, typically reaching a size of around 1.5 to 2 inches (3.8 to 5 centimeters).", habitat="The Sumaco Horned Frog is native to the cloud forests of Ecuador in South America. It is found in the Sumaco Volcano area, which is its namesake.", predators="Predators of the Sumaco Horned Frog may include snakes and certain birds that inhabit the same region.", diet="Sumaco Horned Frogs primarily feed on insects and small invertebrates in their natural habitat.", lifespan="The typical lifespan of the Sumaco Horned Frog in the wild is around 8 to 10 years.", toxicity="The Sumaco Horned Frog is not considered highly poisonous or toxic. It does not possess the potent skin toxins seen in some other frog species.", fun_facts="The Sumaco Horned Frog gets its name from the distinctive bony horn-like protrusions above its eyes, which give it a unique appearance.These frogs have a cryptic coloration, often resembling moss or lichen, helping them blend into their forest environment. They are known for their unique reproductive behavior, with males guarding eggs and tadpoles, which they carry on their backs. This species is native to a specific and limited geographic range, making it an interesting subject of study and conservation concern.")
+        ]
+
+        """Builds sample user/note(s) data"""
+        for frog in frogs:
+            try:
+                frog.create()
+            except IntegrityError:
+                '''fails with bad or duplicate data'''
+                db.session.remove()
+                print(f"Records exist, duplicate email, or error: {player.uid}")
+    # exists = FrogSpecies.query.filter_by(name = "Plains Leopard Frog (Lithobates blairi)").first()
+    # if not exists: 
+    #     frog1 = FrogSpecies(name="Plains Leopard Frog (Lithobates blairi)", size= "Plains Leopard Frogs are medium-sized frogs, typically ranging from about 2 to 3 inches (5 to 7.6 centimeters) in length.", habitat="These frogs are found in a variety of habitats, including grasslands, prairies, wetlands, and semi-aquatic environments. They are native to parts of North America, including the Great Plains region.", predators="Predators of Plains Leopard Frogs may include snakes, birds, larger amphibians, and various small mammals. Additionally, they may face threats from certain invertebrates.", diet="Plains Leopard Frogs are insectivorous and primarily feed on a diet of insects, spiders, and other small invertebrates.", lifespan="The typical lifespan of Plains Leopard Frogs in the wild is around 2 to 4 years, although this can vary based on environmental conditions and predation.", toxicity="Plains Leopard Frogs are not known to be highly poisonous or toxic. They lack the potent skin toxins found in some other frog species.", fun_facts="These frogs get their name from the spots and blotchy patterns on their skin, resembling a leopard's spots. They are known for their distinctive vocalizations during the breeding season, which sound like chuckling laughter. Plains Leopard Frogs are adapted to a variety of terrestrial and aquatic habitats, and they often inhabit grasslands and wetlands with temporary or semi-permanent water bodies. During the breeding season, males call from the water to attract females for mating.")
+    #     db.session.add(frog1)
+    # exists = FrogSpecies.query.filter_by(name = "Sumaco Horned Frog (Hemiphractus proboscideus)").first()
+    # if not exists: 
+    #     frog2 = FrogSpecies(name="Sumaco Horned Frog (Hemiphractus proboscideus)", size= "The Sumaco Horned Frog is medium-sized, typically reaching a size of around 1.5 to 2 inches (3.8 to 5 centimeters).", habitat="The Sumaco Horned Frog is native to the cloud forests of Ecuador in South America. It is found in the Sumaco Volcano area, which is its namesake.", predators="Predators of the Sumaco Horned Frog may include snakes and certain birds that inhabit the same region.", diet="Sumaco Horned Frogs primarily feed on insects and small invertebrates in their natural habitat.", lifespan="The typical lifespan of the Sumaco Horned Frog in the wild is around 8 to 10 years.", toxicity="The Sumaco Horned Frog is not considered highly poisonous or toxic. It does not possess the potent skin toxins seen in some other frog species.", fun_facts="The Sumaco Horned Frog gets its name from the distinctive bony horn-like protrusions above its eyes, which give it a unique appearance.These frogs have a cryptic coloration, often resembling moss or lichen, helping them blend into their forest environment. They are known for their unique reproductive behavior, with males guarding eggs and tadpoles, which they carry on their backs. This species is native to a specific and limited geographic range, making it an interesting subject of study and conservation concern.")
+    #     db.session.add(frog2)
+    # db.session.commit()
